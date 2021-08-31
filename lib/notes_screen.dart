@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/database/database_helper.dart';
+import 'package:note_app/custom_widgets/list_view_card.dart';
 import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
@@ -58,10 +58,10 @@ class TopFunctionsBar extends StatelessWidget {
                     ),
                     onPressed: () {
                       Provider.of<NotesData>(context, listen: false).addNote(Note(
-                        title: 'dummy data',
-                        content: 'dummy data',
-                        createDate: 'dummy data',
-                        updateDate: 'dummy data',
+                        title: 'Dummy data',
+                        content: 'dummy data description',
+                        createDate: '03.03.2003',
+                        updateDate: '04.04.2004',
                         ),
                       );
                     },
@@ -100,8 +100,20 @@ class AllNotesView extends StatelessWidget {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List<Note> list = snapshot.data;
-              return ListView(
-                children: List<Text>.generate(list.length, (i) => Text(list[i].title),),
+              return Scrollbar(
+                child: ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    final note = list[index];
+                    return ListViewCard(
+                      id: note.id,
+                      title: note.title,
+                      content: note.content,
+                      createDate: note.createDate,
+                      updateDate: note.updateDate,
+                    );
+                  },
+                ),
               );
             }
             else if(snapshot.hasError) {
