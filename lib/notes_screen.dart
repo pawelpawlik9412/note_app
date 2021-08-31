@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/database/database_helper.dart';
+import 'package:note_app/model/note.dart';
 import 'package:note_app/size_config.dart';
 
 class NotesScreen extends StatelessWidget {
@@ -78,14 +80,30 @@ class TopFunctionsBar extends StatelessWidget {
 }
 
 class AllNotesView extends StatelessWidget {
-  const AllNotesView();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        child: ListView(
-          children: [],
+        child: FutureBuilder(
+          future: DatabaseHelper.db.getAllNotes("title"),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              List<Note> list = snapshot.data;
+              return ListView(
+                children: List<Text>.generate(list.length, (i) => Text(list[i].title),),
+              );
+            }
+            else if(snapshot.hasError) {
+              return Text('Ops, something goes wrong!');
+            }
+            else if(!snapshot.hasData){
+              return CircularProgressIndicator();
+            }
+            else {
+              return Container();
+            }
+          },
         ),
       ),
     );
