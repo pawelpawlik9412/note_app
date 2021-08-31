@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/database/database_helper.dart';
 import 'package:note_app/model/note.dart';
+import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
+import 'package:provider/provider.dart';
 
 class NotesScreen extends StatelessWidget {
   @override
@@ -86,7 +88,7 @@ class AllNotesView extends StatelessWidget {
     return Expanded(
       child: Container(
         child: FutureBuilder(
-          future: DatabaseHelper.db.getAllNotes("title"),
+          future: Provider.of<NotesData>(context).getAllItems(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List<Note> list = snapshot.data;
