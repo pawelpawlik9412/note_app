@@ -16,6 +16,11 @@ class NotesData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteNote(int noteId) async {
+    _db.deleteNote(noteId);
+    notifyListeners();
+  }
+
   get getNumberOfNotes async {
     var x = await _db.getNumberOfNotes();
     return x;

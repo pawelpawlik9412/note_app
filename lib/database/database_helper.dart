@@ -26,7 +26,6 @@ class DatabaseHelper {
   get _dbPath async {
     var documentsDirectory = await _localPath;
     var path = p.join(documentsDirectory, '$notesTable.db');
-    print(path);
     return path;
   }
 
@@ -75,6 +74,12 @@ class DatabaseHelper {
   Future<int> insertNote(Note note) async {
     var db = await this.database;
     var result = await db.insert(notesTable, note.toMap());
+    return result;
+  }
+
+  Future<int> deleteNote(int noteId) async {
+    var db = await this.database;
+    var result = await db.rawDelete('DELETE FROM $notesTable WHERE $id =$noteId');
     return result;
   }
 

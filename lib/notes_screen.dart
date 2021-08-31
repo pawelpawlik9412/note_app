@@ -105,12 +105,39 @@ class AllNotesView extends StatelessWidget {
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     final note = list[index];
-                    return ListViewCard(
-                      id: note.id,
-                      title: note.title,
-                      content: note.content,
-                      createDate: note.createDate,
-                      updateDate: note.updateDate,
+                    return Dismissible(
+                      key: Key(note.id.toString()),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        margin: EdgeInsets.only(top: SizeConfig.heightMultiplier),
+                        color: Colors.redAccent,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            padding: EdgeInsets.only(right: SizeConfig.widthMultiplier * 8),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: SizeConfig.heightMultiplier * 3.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        try {
+                          Provider.of<NotesData>(context, listen: false).deleteNote(note.id);
+                          list.removeAt(index);
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      child: ListViewCard(
+                        id: note.id,
+                        title: note.title,
+                        content: note.content,
+                        createDate: note.createDate,
+                        updateDate: note.updateDate,
+                      ),
                     );
                   },
                 ),
