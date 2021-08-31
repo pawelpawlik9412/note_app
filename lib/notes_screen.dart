@@ -56,7 +56,15 @@ class TopFunctionsBar extends StatelessWidget {
                       Icons.create,
                       size: SizeConfig.textMultiplier * 3.5,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<NotesData>(context, listen: false).addNote(Note(
+                        title: 'dummy data',
+                        content: 'dummy data',
+                        createDate: 'dummy data',
+                        updateDate: 'dummy data',
+                        ),
+                      );
+                    },
                   ),
                 ],
               )

@@ -10,4 +10,9 @@ class NotesData extends ChangeNotifier {
     var x = await _db.getAllNotes('title');
     return x;
   }
+
+  void addNote(Note note) {
+    _db.insertNote(note);
+    notifyListeners();
+  }
 }
