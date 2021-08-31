@@ -15,4 +15,9 @@ class NotesData extends ChangeNotifier {
     _db.insertNote(note);
     notifyListeners();
   }
+
+  get getNumberOfNotes async {
+    var x = await _db.getNumberOfNotes();
+    return x;
+  }
 }

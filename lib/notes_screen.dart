@@ -142,15 +142,46 @@ class BottomNotesCounter extends StatelessWidget {
       width: double.infinity,
       height: SizeConfig.heightMultiplier * 3.5,
       child: Center(
-        child: Text(
-          '1 note',
-          style: TextStyle(
-            fontSize: SizeConfig.textMultiplier * 2,
-            color: Color(0xFFAAA8B4),
-          ),
+        child: FutureBuilder(
+          future: Provider.of<NotesData>(context).getNumberOfNotes,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data == 1) {
+                return NumberOfNotesText(number: snapshot.data, notes: 'note');
+              }
+              else {
+                return NumberOfNotesText(number: snapshot.data, notes: 'notes');
+              }
+            }
+            else {
+              return Text(
+                '',
+              );
+            }
+          },
         ),
       ),
     );
   }
 }
+
+class NumberOfNotesText extends StatelessWidget {
+
+  final int number;
+  final String notes;
+
+  NumberOfNotesText({@required this.number, @required this.notes});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '$number  $notes',
+      style:  TextStyle(
+        fontSize: SizeConfig.textMultiplier * 2,
+        color: Color(0xFFAAA8B4),
+      ),
+    );
+  }
+}
+
 
