@@ -4,6 +4,7 @@ import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:note_app/screens/detail_screen.dart';
 
 class NotesScreen extends StatelessWidget {
   @override
@@ -27,7 +28,8 @@ class TopFunctionsBar extends StatelessWidget {
       padding: EdgeInsets.only(
           top: SizeConfig.heightMultiplier * 4.0,
           left: SizeConfig.widthMultiplier * 3,
-          right: SizeConfig.widthMultiplier * 3),
+          right: SizeConfig.widthMultiplier * 3,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -57,11 +59,12 @@ class TopFunctionsBar extends StatelessWidget {
                       size: SizeConfig.textMultiplier * 3.5,
                     ),
                     onPressed: () {
-                      Provider.of<NotesData>(context, listen: false).addNote(Note(
-                        title: 'Dummy data',
-                        content: 'dummy data description',
-                        createDate: '03.03.2003',
-                        updateDate: '04.04.2004',
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return DetailScreen();
+                            },
                         ),
                       );
                     },

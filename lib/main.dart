@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/notes_screen.dart';
+import 'package:note_app/screens/notes_screen.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
 import 'package:provider/provider.dart';
@@ -18,16 +18,19 @@ class NoteApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: Container(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return OrientationBuilder(
-                  builder: (context, orientation) {
-                    SizeConfig().init(constraints, orientation);
-                    return NotesScreen();
-                  },
-                );
-              },
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Container(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return OrientationBuilder(
+                    builder: (context, orientation) {
+                      SizeConfig().init(constraints, orientation);
+                      return NotesScreen();
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ),
