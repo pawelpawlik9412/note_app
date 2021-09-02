@@ -52,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           child: Column(
             children: [
-              TopButtonsBar(content: _contentController, title: _titleController, createDate: widget.createDate),
+              TopButtonsBar(id: widget.id, content: _contentController, title: _titleController, createDate: widget.createDate),
               SizedBox(
                 height: SizeConfig.heightMultiplier * 3,
               ),
@@ -68,12 +68,13 @@ class _DetailScreenState extends State<DetailScreen> {
 
 class TopButtonsBar extends StatelessWidget {
 
-  TextEditingController title;
-  TextEditingController content;
-  String createDate;
+  final int id;
+  final TextEditingController title;
+  final TextEditingController content;
+  final String createDate;
 
 
-  TopButtonsBar({@required this.title, @required this.content, @required this.createDate});
+  TopButtonsBar({@required this.id, @required this.title, @required this.content, @required this.createDate});
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +127,8 @@ class TopButtonsBar extends StatelessWidget {
                 size: SizeConfig.heightMultiplier * 3.5,
               ),
               onPressed: () {
+                Provider.of<NotesData>(context, listen: false).deleteNote(id);
+                Navigator.pop(context);
               },
             ),
           ),
@@ -137,9 +140,9 @@ class TopButtonsBar extends StatelessWidget {
 
 class NoteDetailListView extends StatelessWidget  {
 
-  TextEditingController title;
-  TextEditingController content;
-  String createDate;
+  final TextEditingController title;
+  final TextEditingController content;
+  final String createDate;
 
   NoteDetailListView({@required this.title, @required this.content, @required this.createDate});
 

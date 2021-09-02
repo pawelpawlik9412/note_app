@@ -70,7 +70,7 @@ class TopFunctionsBar extends StatelessWidget {
                                 content: null,
                                 createDate: FormatDate.getDate(),
                                 updateDate: FormatDate.getDate(),
-                              );;
+                              );
                             },
                         ),
                       );
