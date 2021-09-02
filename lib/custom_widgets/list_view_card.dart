@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/size_config.dart';
+import 'package:note_app/utils/format_date.dart';
 
 class ListViewCard extends StatelessWidget {
 
@@ -45,7 +46,7 @@ class ListViewCard extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Text(createDate,
+              child: Text(FormatDate.labelDateFormat(createDate),
                 style: TextStyle(
                   color: Color(0xFF3C424A),
                   fontSize: SizeConfig.textMultiplier * 1.6,

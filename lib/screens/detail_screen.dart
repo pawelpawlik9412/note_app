@@ -3,6 +3,7 @@ import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:note_app/utils/format_date.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -65,6 +66,75 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 }
 
+class TopButtonsBar extends StatelessWidget {
+
+  TextEditingController title;
+  TextEditingController content;
+  String createDate;
+
+
+  TopButtonsBar({@required this.title, @required this.content, @required this.createDate});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                CupertinoIcons.back,
+                color: Colors.black,
+                size: SizeConfig.heightMultiplier * 3.5,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: Container(),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                Icons.save_alt,
+                color: Colors.black,
+                size: SizeConfig.heightMultiplier * 3.5,
+              ),
+              onPressed: () {
+                Provider.of<NotesData>(context, listen: false).addNote(Note(
+                  title: title.text,
+                  content: content.text,
+                  createDate: createDate,
+                  updateDate: createDate,
+                ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: Icon(
+                Icons.delete_outline,
+                color: Colors.black,
+                size: SizeConfig.heightMultiplier * 3.5,
+              ),
+              onPressed: () {
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class NoteDetailListView extends StatelessWidget  {
 
   TextEditingController title;
@@ -106,7 +176,7 @@ class NoteDetailListView extends StatelessWidget  {
             SizedBox(
               height: SizeConfig.heightMultiplier * 2,
             ),
-            Text(createDate,
+            Text(FormatDate.labelDateFormat(createDate),
               style: TextStyle(
               fontSize: SizeConfig.textMultiplier * 1.8,
               ),
@@ -138,75 +208,6 @@ class NoteDetailListView extends StatelessWidget  {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TopButtonsBar extends StatelessWidget {
-
-  TextEditingController title;
-  TextEditingController content;
-  String createDate;
-
-
-  TopButtonsBar({@required this.title, @required this.content, @required this.createDate});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: Icon(
-                CupertinoIcons.back,
-                color: Colors.black,
-                size: SizeConfig.heightMultiplier * 3.5,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: Container(color: Colors.tealAccent,),
-          ),
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: Icon(
-                Icons.save_alt,
-                color: Colors.black,
-                size: SizeConfig.heightMultiplier * 3.5,
-              ),
-              onPressed: () {
-                Provider.of<NotesData>(context, listen: false).addNote(Note(
-                  title: title.text,
-                  content: content.text,
-                  createDate: createDate,
-                  updateDate: createDate,
-                  ),
-                );
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                color: Colors.black,
-                size: SizeConfig.heightMultiplier * 3.5,
-              ),
-              onPressed: () {
-              },
-            ),
-          ),
-        ],
       ),
     );
   }

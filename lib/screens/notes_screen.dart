@@ -3,6 +3,7 @@ import 'package:note_app/custom_widgets/list_view_card.dart';
 import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
+import 'package:note_app/utils/format_date.dart';
 import 'package:provider/provider.dart';
 import 'package:note_app/screens/detail_screen.dart';
 
@@ -67,8 +68,8 @@ class TopFunctionsBar extends StatelessWidget {
                                 id: null,
                                 title: null,
                                 content: null,
-                                createDate: '00.00.0000',
-                                updateDate: '00.00.0000',
+                                createDate: FormatDate.getDate(),
+                                updateDate: FormatDate.getDate(),
                               );;
                             },
                         ),
