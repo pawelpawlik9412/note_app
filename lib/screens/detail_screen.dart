@@ -1,8 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/note.dart';
+import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
+
+  final int id;
+  final String title;
+  final String content;
+  final String createDate;
+  final String updateDate;
+
+  DetailScreen({
+    @required this.id,
+    @required this.title,
+    @required this.content,
+    @required this.createDate,
+    @required this.updateDate,
+  });
+
+  @override
+  _DetailScreenState createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _contentController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.title;
+    _contentController.text = widget.content;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,11 +51,12 @@ class DetailScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              TopButtonsBar(),
+              TopButtonsBar(content: _contentController, title: _titleController, createDate: widget.createDate),
               SizedBox(
                 height: SizeConfig.heightMultiplier * 3,
               ),
-              NoteDetailListView(),
+              NoteDetailListView(title: _titleController, content: _contentController, createDate: widget.createDate,
+              ),
             ],
           ),
         ),
@@ -28,17 +65,22 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-class NoteDetailListView extends StatelessWidget {
-  NoteDetailListView();
+class NoteDetailListView extends StatelessWidget  {
+
+  TextEditingController title;
+  TextEditingController content;
+  String createDate;
+
+  NoteDetailListView({@required this.title, @required this.content, @required this.createDate});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        // padding: EdgeInsets.only(left: SizeConfig.widthMultiplier * 4, right: SizeConfig.widthMultiplier * 4),
         child: ListView(
           children: [
             TextField(
+              controller: title,
               maxLines: null,
               textCapitalization: TextCapitalization.sentences,
               keyboardType: TextInputType.multiline,
@@ -64,7 +106,7 @@ class NoteDetailListView extends StatelessWidget {
             SizedBox(
               height: SizeConfig.heightMultiplier * 2,
             ),
-            Text('03.03.2003',
+            Text(createDate,
               style: TextStyle(
               fontSize: SizeConfig.textMultiplier * 1.8,
               ),
@@ -73,6 +115,7 @@ class NoteDetailListView extends StatelessWidget {
               height: SizeConfig.heightMultiplier * 2,
             ),
             TextField(
+              controller: content,
               maxLines: null,
               keyboardType: TextInputType.multiline,
               style: TextStyle(
@@ -101,12 +144,17 @@ class NoteDetailListView extends StatelessWidget {
 }
 
 class TopButtonsBar extends StatelessWidget {
-  TopButtonsBar();
+
+  TextEditingController title;
+  TextEditingController content;
+  String createDate;
+
+
+  TopButtonsBar({@required this.title, @required this.content, @required this.createDate});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(top: SizeConfig.heightMultiplier * 2, left: SizeConfig.widthMultiplier * 2, right: SizeConfig.widthMultiplier * 2),
       child: Row(
         children: [
           Expanded(
@@ -135,6 +183,14 @@ class TopButtonsBar extends StatelessWidget {
                 size: SizeConfig.heightMultiplier * 3.5,
               ),
               onPressed: () {
+                Provider.of<NotesData>(context, listen: false).addNote(Note(
+                  title: title.text,
+                  content: content.text,
+                  createDate: createDate,
+                  updateDate: createDate,
+                  ),
+                );
+                Navigator.pop(context);
               },
             ),
           ),

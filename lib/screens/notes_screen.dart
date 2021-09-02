@@ -63,7 +63,13 @@ class TopFunctionsBar extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) {
-                              return DetailScreen();
+                              return DetailScreen(
+                                id: null,
+                                title: null,
+                                content: null,
+                                createDate: '00.00.0000',
+                                updateDate: '00.00.0000',
+                              );;
                             },
                         ),
                       );
