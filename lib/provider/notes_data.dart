@@ -21,6 +21,11 @@ class NotesData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateNote(int noteId, String titleUpdate, String contentUpdate, String dateUpdate) {
+    _db.updateNote(noteId, titleUpdate, contentUpdate, dateUpdate);
+    notifyListeners();
+  }
+
   get getNumberOfNotes async {
     var x = await _db.getNumberOfNotes();
     return x;

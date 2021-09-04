@@ -76,6 +76,34 @@ class TopButtonsBar extends StatelessWidget {
 
   TopButtonsBar({@required this.id, @required this.title, @required this.content, @required this.createDate});
 
+  void checkIfExist(BuildContext context) {
+    String titleString = title.text.trim();
+    String contentString = content.text.trim();
+    if(id == null) {
+      if(titleString == "" && contentString == "") {
+        return;
+      }
+      else {
+        Provider.of<NotesData>(context, listen: false).addNote(
+          Note(
+            title: title.text,
+            content: content.text,
+            createDate: createDate,
+            updateDate: createDate,
+          ),
+        );
+      }
+    }
+    else {
+      if(titleString == "" && contentString == "") {
+        Provider.of<NotesData>(context, listen: false).deleteNote(id);
+      }
+      else {
+        Provider.of<NotesData>(context, listen: false).updateNote(id, titleString, contentString, FormatDate.getDate(),);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,6 +118,7 @@ class TopButtonsBar extends StatelessWidget {
                 size: SizeConfig.heightMultiplier * 3.5,
               ),
               onPressed: () {
+                checkIfExist(context);
                 Navigator.pop(context);
               },
             ),
@@ -107,13 +136,7 @@ class TopButtonsBar extends StatelessWidget {
                 size: SizeConfig.heightMultiplier * 3.5,
               ),
               onPressed: () {
-                Provider.of<NotesData>(context, listen: false).addNote(Note(
-                  title: title.text,
-                  content: content.text,
-                  createDate: createDate,
-                  updateDate: createDate,
-                ),
-                );
+                checkIfExist(context);
                 Navigator.pop(context);
               },
             ),

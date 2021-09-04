@@ -83,6 +83,12 @@ class DatabaseHelper {
     return result;
   }
 
+  Future<int> updateNote(int noteId, String titleUpdate, String contentUpdate, String dateUpdate) async {
+    var db = await this.database;
+    int result = await db.rawUpdate('UPDATE $notesTable SET $title = "$titleUpdate", $content = "$contentUpdate", $updateDate = "$dateUpdate" WHERE $id = $noteId');
+    return result;
+  }
+
   Future<int> getNumberOfNotes() async {
     Database db = await this.database;
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $notesTable');
