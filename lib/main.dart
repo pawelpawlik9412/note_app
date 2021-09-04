@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/provider/preferences_data.dart';
 import 'package:note_app/screens/notes_screen.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/size_config.dart';
@@ -14,6 +15,7 @@ class NoteApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NotesData()),
+        ChangeNotifierProvider(create: (_) => PreferencesData()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

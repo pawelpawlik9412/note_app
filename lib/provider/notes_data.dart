@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:note_app/database/database_helper.dart';
 import 'package:note_app/model/note.dart';
+import 'package:note_app/provider/preferences_data.dart';
+import 'package:provider/provider.dart';
 
 class NotesData extends ChangeNotifier {
 
   var _db = DatabaseHelper.db;
 
-  Future<List<Note>> getAllItems() async {
-    var x = await _db.getAllNotes('title');
+  Future<List<Note>> getAllItems(BuildContext context) async {
+    var sortBy = await Provider.of<PreferencesData>(context).getSortPreferences();
+    var x = await _db.getAllNotes(sortBy);
     return x;
   }
 

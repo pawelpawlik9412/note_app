@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app/custom_widgets/list_view_card.dart';
 import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
+import 'package:note_app/provider/preferences_data.dart';
 import 'package:note_app/size_config.dart';
 import 'package:note_app/utils/format_date.dart';
 import 'package:provider/provider.dart';
@@ -81,17 +83,66 @@ class TopFunctionsBar extends StatelessWidget {
             ],
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              showCupertinoModalPopup(
+                context: context,
+                builder: (BuildContext context) {
+                  return CupertinoActionSheet(
+                    actions: <Widget>[
+                      CupertinoActionSheetAction(
+                        child: Text('Title'),
+                        onPressed: () {
+                          Provider.of<PreferencesData>(context, listen: false).safeSortPreferences('title');
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CupertinoActionSheetAction(
+                        child: Text('Edition date'),
+                        onPressed: () {
+                          Provider.of<PreferencesData>(context, listen: false).safeSortPreferences('updateDate DESC');
+                          Navigator.pop(context);
+                        },
+                      ),
+                      CupertinoActionSheetAction(
+                        child: Text('Creation date'),
+                        onPressed: () {
+                          Provider.of<PreferencesData>(context, listen: false).safeSortPreferences('createDate DESC');
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                    cancelButton: CupertinoActionSheetAction(
+                      isDestructiveAction: true,
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                },
+              );
+            },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
             ),
-            child: Text(
-              'Sort by title',
-              style: TextStyle(
-                fontSize: SizeConfig.textMultiplier * 1.7,
-                color: Color(0xFFAAA8B4),
-              ),
-            ),
+            child: FutureBuilder<String>(
+              future: Provider.of<PreferencesData>(context).getStringForSortButton(),
+              builder: (context, snapshot) {
+                print(snapshot.data);
+                if(snapshot.hasData) {
+                  return Text(
+                    snapshot.data,
+                    style: TextStyle(
+                      fontSize: SizeConfig.textMultiplier * 1.7,
+                      color: Color(0xFFAAA8B4),
+                    ),
+                  );
+                }
+                else {
+                  return Text('');
+                }
+              },
+            )
           ),
         ],
       ),
@@ -106,7 +157,7 @@ class AllNotesView extends StatelessWidget {
     return Expanded(
       child: Container(
         child: FutureBuilder(
-          future: Provider.of<NotesData>(context).getAllItems(),
+          future: Provider.of<NotesData>(context).getAllItems(context),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List<Note> list = snapshot.data;
