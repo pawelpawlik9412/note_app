@@ -16,7 +16,23 @@ class NotesScreen extends StatelessWidget {
     return Column(
       children: [
         TopFunctionsBar(),
-        AllNotesGridView(),
+        FutureBuilder<NotesView>(
+            future: Provider.of<PreferencesData>(context).getNotesView(),
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                if(snapshot.data == NotesView.NoteList) {
+                  return AllNotesListView();
+                } else {
+                  return AllNotesGridView();
+                }
+              }
+              else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+        ),
         BottomNotesCounter(),
       ],
     );
@@ -50,12 +66,37 @@ class TopFunctionsBar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.view_stream,
-                      size: SizeConfig.textMultiplier * 3.5,
-                    ),
-                    onPressed: () {},
+                  FutureBuilder<NotesView>(
+                    future: Provider.of<PreferencesData>(context).getIconForViewButton(),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData) {
+                        if(snapshot.data == NotesView.NoteList) {
+                          return IconButton(
+                            icon: Icon(
+                              Icons.view_stream,
+                              size: SizeConfig.textMultiplier * 3.5,
+                            ),
+                            onPressed: () {
+                              Provider.of<PreferencesData>(context, listen: false).changeViewPreferences();
+                            },
+                          );
+                        }
+                        else {
+                          return IconButton(
+                            icon: Icon(
+                              Icons.view_module,
+                              size: SizeConfig.textMultiplier * 3.5,
+                            ),
+                            onPressed: () {
+                              Provider.of<PreferencesData>(context, listen: false).changeViewPreferences();
+                            },
+                          );
+                        }
+                      }
+                      else {
+                        return Container();
+                      }
+                    },
                   ),
                   IconButton(
                     icon: Icon(
