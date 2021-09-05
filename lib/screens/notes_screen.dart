@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:note_app/custom_widgets/grid_view_card.dart';
 import 'package:note_app/custom_widgets/list_view_card.dart';
 import 'package:note_app/model/note.dart';
 import 'package:note_app/provider/notes_data.dart';
@@ -15,7 +16,7 @@ class NotesScreen extends StatelessWidget {
     return Column(
       children: [
         TopFunctionsBar(),
-        AllNotesView(),
+        AllNotesGridView(),
         BottomNotesCounter(),
       ],
     );
@@ -150,7 +151,7 @@ class TopFunctionsBar extends StatelessWidget {
   }
 }
 
-class AllNotesView extends StatelessWidget {
+class AllNotesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -219,6 +220,49 @@ class AllNotesView extends StatelessWidget {
     );
   }
 }
+
+class AllNotesGridView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        child: FutureBuilder<List<Note>>(
+          future: Provider.of<NotesData>(context).getAllItems(context),
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                List<Note> list = snapshot.data;
+                return Scrollbar(
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: SizeConfig.portraitOrientation ? 2 : 4,
+                          childAspectRatio: (50.0 / 60.0),
+                        ),
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          final note = list[index];
+                          return GridViewCard(
+                              id: note.id,
+                              title: note.title,
+                              content: note.content,
+                              createDate: note.createDate,
+                              updateDate: note.updateDate,
+                          );
+                        },
+                    ),
+                );
+              }
+              else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+        ),
+      ),
+    );
+  }
+}
+
 
 class BottomNotesCounter extends StatelessWidget {
   const BottomNotesCounter();
