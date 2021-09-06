@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/screens/detail_screen.dart';
 import 'package:note_app/size_config.dart';
 import 'package:note_app/utils/format_date.dart';
+import 'package:provider/provider.dart';
 
 class GridViewCard extends StatelessWidget {
 
@@ -15,74 +18,115 @@ class GridViewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DetailScreen(
-                id: id,
-                title: title,
-                content: content,
-                createDate: createDate,
-                updateDate: updateDate,
-              );
-            },
-          ),
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.all(SizeConfig.widthMultiplier * 2.0),
-        margin: EdgeInsets.all(SizeConfig.heightMultiplier * 1.0),
-        decoration: BoxDecoration(
-          color: Color(0xFFF4F4F4),
-          borderRadius: BorderRadius.circular(15.0),
+    return CupertinoContextMenu(
+      actions: [
+        CupertinoContextMenuAction(
+          child: Text('Open'),
+          trailingIcon: CupertinoIcons.pencil,
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return DetailScreen(
+                    id: id,
+                    title: title,
+                    content: content,
+                    createDate: createDate,
+                    updateDate: updateDate,
+                  );
+                },
+              ),
+            );
+          },
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: SizeConfig.heightMultiplier * 0.2,
+        CupertinoContextMenuAction(
+          child: Text('Delete',
+            style: TextStyle(
+                color: CupertinoColors.destructiveRed
             ),
-            Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Color(0xFF3C424A),
-                fontSize: SizeConfig.textMultiplier * 2.5,
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          trailingIcon: CupertinoIcons.delete,
+          onPressed: () {
+            Provider.of<NotesData>(context, listen: false).deleteNote(id);
+            Navigator.pop(context);
+          },
+        ),
+      ],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return DetailScreen(
+                  id: id,
+                  title: title,
+                  content: content,
+                  createDate: createDate,
+                  updateDate: updateDate,
+                );
+              },
             ),
-            SizedBox(
-              height: SizeConfig.heightMultiplier * 0.7,
+          );
+        },
+        child: Material(
+          borderRadius: BorderRadius.circular(SizeConfig.widthMultiplier * 3),
+          child: Container(
+            constraints: BoxConstraints(maxHeight: SizeConfig.heightMultiplier * 27.0, minWidth: SizeConfig.widthMultiplier * 98, maxWidth: SizeConfig.widthMultiplier * 98),
+            padding: EdgeInsets.all(SizeConfig.widthMultiplier * 2.0),
+            margin: EdgeInsets.all(SizeConfig.heightMultiplier * 1.0),
+            decoration: BoxDecoration(
+              color: Color(0xFFF4F4F4),
+              borderRadius: BorderRadius.circular(15.0),
             ),
-            Text(
-              FormatDate.labelDateFormat(createDate),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: Color(0xFF3C424A),
-                fontSize: SizeConfig.textMultiplier * 1.8,
-                fontWeight: FontWeight.w400,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: SizeConfig.heightMultiplier * 0.2,
+                ),
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Color(0xFF3C424A),
+                    fontSize: SizeConfig.textMultiplier * 2.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.heightMultiplier * 0.7,
+                ),
+                Text(
+                  FormatDate.labelDateFormat(createDate),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Color(0xFF3C424A),
+                    fontSize: SizeConfig.textMultiplier * 1.8,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.heightMultiplier * 1.7,
+                ),
+                Text(
+                  content,
+                  textAlign: TextAlign.left,
+                  maxLines: 7,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize:  SizeConfig.textMultiplier * 1.8,
+                    color: Color(0xFF3C424A),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: SizeConfig.heightMultiplier * 1.7,
-            ),
-            Text(
-              content,
-              textAlign: TextAlign.left,
-              maxLines: 7,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize:  SizeConfig.textMultiplier * 1.8,
-                color: Color(0xFF3C424A),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
