@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/detail_screen_view.dart';
 import 'package:note_app/screens/notes_screen.dart';
 import 'package:note_app/size_config.dart';
 
@@ -21,9 +22,7 @@ class ScreenManager extends StatelessWidget {
                   ),
                   SizeConfig().screenSize ? Container() : Expanded(
                     flex: 3,
-                    child: Container(
-                        color: Colors.tealAccent,
-                      ),
+                    child: DetailScreenView(id: 1, title: '2', content: '3', createDate: '2021-09-08 09:56:18', updateDate: '2021-09-08 09:56:18')
                   ),
                 ],
               );
