@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/provider/preferences_data.dart';
-import 'package:note_app/screens/notes_screen.dart';
 import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/screens/screen_manager.dart';
-import 'package:note_app/size_config.dart';
 import 'package:provider/provider.dart';
 
 void main() {

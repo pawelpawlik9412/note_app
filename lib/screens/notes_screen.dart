@@ -66,7 +66,7 @@ class TopFunctionsBar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FutureBuilder<NotesView>(
+                  SizeConfig().screenSize ? FutureBuilder<NotesView>(
                     future: Provider.of<PreferencesData>(context).getIconForViewButton(),
                     builder: (context, snapshot) {
                       if(snapshot.hasData) {
@@ -97,7 +97,7 @@ class TopFunctionsBar extends StatelessWidget {
                         return Container();
                       }
                     },
-                  ),
+                  ) : Container(),
                   IconButton(
                     icon: Icon(
                       Icons.create,
@@ -170,7 +170,6 @@ class TopFunctionsBar extends StatelessWidget {
             child: FutureBuilder<String>(
               future: Provider.of<PreferencesData>(context).getStringForSortButton(),
               builder: (context, snapshot) {
-                print(snapshot.data);
                 if(snapshot.hasData) {
                   return Text(
                     snapshot.data,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/model/note.dart';
+import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/screens/detail_screen_view.dart';
 import 'package:note_app/screens/notes_screen.dart';
 import 'package:note_app/size_config.dart';
+import 'package:provider/provider.dart';
 
 class ScreenManager extends StatelessWidget {
   @override
@@ -22,7 +25,18 @@ class ScreenManager extends StatelessWidget {
                   ),
                   SizeConfig().screenSize ? Container() : Expanded(
                     flex: 3,
-                    child: DetailScreenView(id: 1, title: '2', content: '3', createDate: '2021-09-08 09:56:18', updateDate: '2021-09-08 09:56:18')
+                    child: FutureBuilder<Note>(
+                        future: Provider.of<NotesData>(context).getNoteForDetailView(context),
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData) {
+                            Note note = snapshot.data;
+                            return DetailScreenView(id: note.id, title: note.title, content: note.content, createDate: note.createDate, updateDate: note.updateDate);
+                          }
+                          else {
+                            return Container();
+                          }
+                        },
+                    ),
                   ),
                 ],
               );

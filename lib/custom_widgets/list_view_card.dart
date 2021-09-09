@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/provider/notes_data.dart';
 import 'package:note_app/screens/detail_screen.dart';
 import 'package:note_app/size_config.dart';
 import 'package:note_app/utils/format_date.dart';
+import 'package:provider/provider.dart';
 
 class ListViewCard extends StatelessWidget {
 
@@ -17,25 +19,33 @@ class ListViewCard extends StatelessWidget {
     @required this.content,
     @required this.createDate,
     @required this.updateDate,
-});
+  });
+
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DetailScreen(
-                id: id,
-                title: title,
-                content: content,
-                createDate: createDate,
-                updateDate: updateDate,
-              );
-            },
-          ),
-        );
+        if(SizeConfig().screenSize == true) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return DetailScreen(
+                  id: id,
+                  title: title,
+                  content: content,
+                  createDate: createDate,
+                  updateDate: updateDate,
+                );
+              },
+            ),
+          );
+        }
+        else {
+          Provider.of<NotesData>(context, listen: false).setSelectedNote(id);
+        }
       },
       child: Container(
         margin: EdgeInsets.only(top: SizeConfig.heightMultiplier, left: SizeConfig.widthMultiplier * 1.5, right: SizeConfig.widthMultiplier * 1.5),

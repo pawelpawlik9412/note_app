@@ -95,4 +95,19 @@ class DatabaseHelper {
     int result = Sqflite.firstIntValue(x);
     return result;
   }
+
+  Future<Note> getNote(noteId) async {
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> map = await db.rawQuery(
+        'SELECT * From $notesTable WHERE $id = $noteId');
+    int i = 0;
+    Note note = Note(
+      id: map[i]['id'],
+      title: map[i]['title'].toString(),
+      content: map[i]['content'].toString(),
+      createDate: map[i]['createDate'].toString(),
+      updateDate: map[i]['updateDate'].toString(),
+    );
+    return note;
+  }
 }

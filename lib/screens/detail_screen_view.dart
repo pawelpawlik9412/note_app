@@ -4,11 +4,11 @@ import 'package:note_app/utils/format_date.dart';
 
 class DetailScreenView extends StatelessWidget {
 
-  int id;
-  String title;
-  String content;
-  String createDate;
-  String updateDate;
+  final int id;
+  final String title;
+  final String content;
+  final String createDate;
+  final String updateDate;
 
   DetailScreenView({@required this.id, @required this.title, @required this.content, @required this.createDate, @required this.updateDate});
 

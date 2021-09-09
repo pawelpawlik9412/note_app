@@ -56,20 +56,25 @@ class GridViewCard extends StatelessWidget {
       ],
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return DetailScreen(
-                  id: id,
-                  title: title,
-                  content: content,
-                  createDate: createDate,
-                  updateDate: updateDate,
-                );
-              },
-            ),
-          );
+          if(SizeConfig().screenSize == true) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return DetailScreen(
+                    id: id,
+                    title: title,
+                    content: content,
+                    createDate: createDate,
+                    updateDate: updateDate,
+                  );
+                },
+              ),
+            );
+          }
+          else {
+            Provider.of<NotesData>(context, listen: false).setSelectedNote(id);
+          }
         },
         child: Material(
           borderRadius: BorderRadius.circular(SizeConfig.widthMultiplier * 3),

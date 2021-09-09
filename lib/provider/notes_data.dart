@@ -8,6 +8,8 @@ class NotesData extends ChangeNotifier {
 
   var _db = DatabaseHelper.db;
 
+  Note selectedNote;
+
   Future<List<Note>> getAllItems(BuildContext context) async {
     var sortBy = await Provider.of<PreferencesData>(context).getSortPreferences();
     var x = await _db.getAllNotes(sortBy);
@@ -32,5 +34,37 @@ class NotesData extends ChangeNotifier {
   get getNumberOfNotes async {
     var x = await _db.getNumberOfNotes();
     return x;
+  }
+
+  Future<Note> getFirstNote(context) async {
+    var y = await Provider.of<PreferencesData>(context, listen:  false).getSortPreferences();
+    var x = await _db.getAllNotes(y);
+    var result;
+
+    try {
+      result = x[0];
+    }
+    catch (e) {
+      print(e);
+      result = null;
+    }
+    return result;
+  }
+
+  Future<void> setSelectedNote(noteId) async {
+    var x = await _db.getNote(noteId);
+    selectedNote = x;
+    notifyListeners();
+  }
+
+  Future<Note> getNoteForDetailView(context) async {
+    Note note;
+    if(selectedNote == null) {
+      note = await getFirstNote(context);
+    }
+    else {
+      note = selectedNote;
+    }
+    return note;
   }
 }
