@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/provider/notes_data.dart';
+import 'package:note_app/screens/detail_screen.dart';
 import 'package:note_app/size_config.dart';
 import 'package:note_app/utils/format_date.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreenView extends StatelessWidget {
 
@@ -25,7 +28,17 @@ class DetailScreenView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return DetailScreen(id: id, title: title, content: content, createDate: createDate, updateDate: updateDate,
+                        );
+                      },
+                    ),
+                  );
+                },
                 icon: Icon(
                   Icons.fullscreen,
                   size: SizeConfig.heightMultiplier * 3,
@@ -33,7 +46,9 @@ class DetailScreenView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<NotesData>(context, listen: false).deleteNote(id, context);
+                },
                 icon: Icon(
                   Icons.delete_outline,
                   size: SizeConfig.heightMultiplier * 3,

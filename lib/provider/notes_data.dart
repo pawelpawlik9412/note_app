@@ -37,6 +37,15 @@ class NotesData extends ChangeNotifier {
   void updateNote(int noteId, String titleUpdate, String contentUpdate, String dateUpdate) {
     _db.updateNote(noteId, titleUpdate, contentUpdate, dateUpdate);
     notifyListeners();
+    if(selectedNote == null) {
+      return;
+    }
+    else if(noteId == selectedNote.id) {
+      selectedNote.title = titleUpdate;
+      selectedNote.content = contentUpdate;
+      selectedNote.updateDate = dateUpdate;
+    }
+    notifyListeners();
   }
 
   get getNumberOfNotes async {
