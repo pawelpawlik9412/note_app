@@ -41,8 +41,7 @@ class DetailScreenView extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.fullscreen,
-                  size: SizeConfig.heightMultiplier * 3,
-                  color: Color(0xFFC6D7E5),
+                  size: SizeConfig.textMultiplier * 3.5,
                 ),
               ),
               IconButton(
@@ -51,8 +50,7 @@ class DetailScreenView extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.delete_outline,
-                  size: SizeConfig.heightMultiplier * 3,
-                  color: Color(0xFFC6D7E5),
+                  size: SizeConfig.textMultiplier * 3.5,
                 ),
               ),
             ],

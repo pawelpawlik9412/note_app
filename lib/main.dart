@@ -21,6 +21,7 @@ class NoteApp extends StatelessWidget {
         home: Scaffold(
           resizeToAvoidBottomInset: false,
           body: SafeArea(
+            top: false,
             child: ScreenManager(),
           ),
         ),

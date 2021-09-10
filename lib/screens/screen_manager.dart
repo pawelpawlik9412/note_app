@@ -25,17 +25,20 @@ class ScreenManager extends StatelessWidget {
                   ),
                   SizeConfig().screenSize ? Container() : Expanded(
                     flex: 3,
-                    child: FutureBuilder<Note>(
-                        future: Provider.of<NotesData>(context).getNoteForDetailView(context),
-                        builder: (context, snapshot) {
-                          if(snapshot.hasData) {
-                            Note note = snapshot.data;
-                            return DetailScreenView(id: note.id, title: note.title, content: note.content, createDate: note.createDate, updateDate: note.updateDate);
-                          }
-                          else {
-                            return Container();
-                          }
-                        },
+                    child: Container(
+                      color: Color(0xFFF4F4F4),
+                      child: FutureBuilder<Note>(
+                          future: Provider.of<NotesData>(context).getNoteForDetailView(context),
+                          builder: (context, snapshot) {
+                            if(snapshot.hasData) {
+                              Note note = snapshot.data;
+                              return DetailScreenView(id: note.id, title: note.title, content: note.content, createDate: note.createDate, updateDate: note.updateDate);
+                            }
+                            else {
+                              return Container();
+                            }
+                          },
+                      ),
                     ),
                   ),
                 ],
