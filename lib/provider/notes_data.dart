@@ -21,8 +21,16 @@ class NotesData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteNote(int noteId) async {
+  void deleteNote(int noteId, context) async {
     _db.deleteNote(noteId);
+    notifyListeners();
+    var y = await getFirstNote(context);
+    if (y == null) {
+      selectedNote = null;
+    }
+    else if(selectedNote == null || noteId == selectedNote.id || y != null) {
+      setSelectedNote(y.id);
+    }
     notifyListeners();
   }
 

@@ -227,7 +227,7 @@ class AllNotesListView extends StatelessWidget {
                       ),
                       onDismissed: (direction) {
                         try {
-                          Provider.of<NotesData>(context, listen: false).deleteNote(note.id);
+                          Provider.of<NotesData>(context, listen: false).deleteNote(note.id, context);
                           list.removeAt(index);
                         } catch (e) {
                           print(e);

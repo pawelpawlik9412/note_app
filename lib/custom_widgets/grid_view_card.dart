@@ -49,7 +49,7 @@ class GridViewCard extends StatelessWidget {
           ),
           trailingIcon: CupertinoIcons.delete,
           onPressed: () {
-            Provider.of<NotesData>(context, listen: false).deleteNote(id);
+            Provider.of<NotesData>(context, listen: false).deleteNote(id, context);
             Navigator.pop(context);
           },
         ),

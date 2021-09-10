@@ -96,7 +96,7 @@ class TopButtonsBar extends StatelessWidget {
     }
     else {
       if(titleString == "" && contentString == "") {
-        Provider.of<NotesData>(context, listen: false).deleteNote(id);
+        Provider.of<NotesData>(context, listen: false).deleteNote(id, context);
       }
       else {
         Provider.of<NotesData>(context, listen: false).updateNote(id, titleString, contentString, FormatDate.getDate(),);
@@ -150,7 +150,7 @@ class TopButtonsBar extends StatelessWidget {
                 size: SizeConfig.heightMultiplier * 3.5,
               ),
               onPressed: () {
-                Provider.of<NotesData>(context, listen: false).deleteNote(id);
+                Provider.of<NotesData>(context, listen: false).deleteNote(id, context);
                 Navigator.pop(context);
               },
             ),
